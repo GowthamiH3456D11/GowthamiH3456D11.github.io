@@ -1,0 +1,158 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+
+    .main{
+        display: flex;
+        flex-direction:row;
+        flex-wrap: wrap;
+        margin: auto;
+        color: rgb(34, 1, 21);
+      
+        
+        /* width: 100px; */
+        /* height: 100px; */
+        
+
+    }
+   div .container{
+        border-radius: 20%;
+        border: solid 2px rgb(85, 147, 180);
+        height: 300px;
+        width: 300px;
+        padding: 50px;
+        text-align: center;
+        margin: 5px;
+        background-color: rgb(202, 182, 220);
+        border-style: dotted black;
+        
+    }
+
+    .cartpic{
+        width: 70px;
+        height: 70px;
+        top: 20%;
+        margin-left: 90%; 
+
+    }
+</style>
+ 
+</head>
+<body>
+    
+        <img class="cartpic"  src="download.png" alt="" >
+    
+
+    <h1 style="text-align: center; color: purple;" >Different types of Flowers</h1>
+       <div id="products" class="main"></div>
+       <div id="c1"></div>
+       <!-- <div><h1>My Cart</h1></div>
+        <div id="Mycart"></div>
+        <div id="order"></div> -->
+        
+    <script>
+        
+    let product = [
+
+    {name:"Rose", description: "This is rose", price: '10', image:"rose.jpg"},
+    {name:"Bluelily", description:"This is bluelily", price: 20, image: "bluelily.jpg"},
+    {name:"Jasmin",description: "This is jasmin ", price: 30, image: "jasmin.jpg"},
+    {name:"Sunflower",description: "This is sunflower ", price: 40, image: "sunflower.jpg"},
+    {name:"Lotus",description: "This is lotus", price: 50, image: "lotus.jpg"},
+    {name:"Lily",description: "This is lily ", price: 50, image: "lily.jpg"},
+    
+    ];
+
+    // let cart =[
+
+    // {name:"Bluelily:", description:"This is bluelily", price: 20,qty:2},
+    // {name:"Jasmin:",description: "This is jasmin ", price: 30,qty:3},
+
+    // ];
+
+    let listCards= [];
+    let msg="";
+    
+    product.forEach((value, key) => {
+        msg=msg+`<div class="container">
+            <div><img width=200px height=200px src=${value.image} /></div>
+                <div>${value.name}</div>
+                <div>${value.description}</div>
+                <div>${value.price}</div>
+                <div><button id="${key}" onclick ="addToCard(${key})">Add to cart</button></div>
+
+                </div>`;
+    });
+    products.innerHTML=msg;
+
+    // let text="";
+    //     cart.forEach((value) =>{
+    //         text = text+`
+    //         <ul>
+    //             <li>${value.name}-${value.price}-${value.qty}-${value.price*value.qty}</li>
+    //             </ul>`;
+    // });   
+        function addToCard(key) {
+            if(listCards[key]==null){
+                // listCards[key]=product[key];
+                listCards[key]=JSON.parse(JSON.stringify(product[key]));
+                listCards[key].quantity = 1;
+
+            }else{
+                listCards[key].quantity=listCards[key].quantity + 1;
+
+            }
+            console.log(listCards);
+            reloadCard();
+        }
+
+        function reloadCard(){
+            c1.innerHTML="";
+            listCards.forEach((value,key) =>{
+                if(value !=null){
+                    let newDiv=document.createElement("c1");
+                    newDiv.innerHTML=`
+                    <div><img src="${value.image}"></div>
+                 
+                    <div>${value.name}</div>
+                    <div>${value.price.toLocaleString()}</div>
+
+                    <div>
+                        <button onclick="changeQuantity(${key},${value.quantity - 1})">-</button>
+                        <div class="count">${value.quantity}</div>
+                        <button onclick="changeQuantity(${key},${value.quantity +1})">+</button>
+                        <div>`;
+                            c1.appendChild(newDiv);
+                }
+            });
+        }
+
+        
+
+        function changeQuantity(key, quantity){
+            if(quantity==0)
+            {
+                delete listCards[key];
+
+            }else{
+                listCards[key].quantity = quantity;
+                listCards[key].price= quantity * product[key].price;
+            }
+            reloadCard();
+        }
+    
+
+
+    // Mycart .innerHTML=text;
+    // let total =cart.reduce((sum,value)=>{
+    //     return sum=value.price*value.qty;
+    // },0);
+    // order.innerHTML="order value:" +total;
+    
+
+   </script>
+</body>
+</html>
